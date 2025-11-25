@@ -1,0 +1,200 @@
+:root {
+  --background-body: #f5f7fb;
+  --surface-primary: #fff;
+  --surface-secondary: #f0f2f8;
+  --text-primary: #1f2933;
+  --text-muted: #5f6c80;
+  --border-default: rgba(31, 41, 51, 0.08);
+  --card-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+}
+
+:root[data-theme="dark"] {
+  --background-body: #0f172a;
+  --surface-primary: #1e293b;
+  --surface-secondary: #142135;
+  --text-primary: #f8fafc;
+  --text-muted: #94a3b8;
+  --border-default: rgba(255, 255, 255, 0.08);
+  --card-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--background-body);
+  color: var(--text-primary);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+mat-card {
+  background: var(--surface-primary) !important;
+  color: var(--text-primary);
+  border: 1px solid var(--border-default);
+  box-shadow: var(--card-shadow);
+}
+
+mark {
+  background: rgba(255, 214, 0, 0.4);
+  color: inherit;
+}
+
+.mat-mdc-table,
+.mat-mdc-row,
+.mat-mdc-header-row {
+  background: transparent;
+}
+
+.mat-mdc-cell,
+.mat-mdc-header-cell,
+.mat-mdc-footer-cell {
+  background: var(--surface-primary);
+  color: var(--text-primary);
+  border-color: var(--border-default);
+}
+
+.mat-mdc-table tr.mat-mdc-row:hover .mat-mdc-cell {
+  background: rgba(95, 108, 128, 0.08);
+}
+
+.mat-mdc-paginator-container {
+  justify-content: center !important;
+}
+
+// Key metrics
+.mat-mdc-list-item {
+  color: var(--text-primary) !important;
+}
+
+.mat-mdc-list-item .mdc-list-item__primary-text,
+.mat-mdc-list-item .mdc-list-item__secondary-text {
+  color: var(--text-primary) !important;
+}
+
+.mat-mdc-list-item .mdc-list-item__supporting-text {
+  color: var(--text-muted) !important;
+}
+
+// Sort controls
+.mat-mdc-button-toggle-group {
+  background: var(--surface-secondary);
+  border-color: var(--border-default);
+}
+
+.mat-mdc-button-toggle {
+  background: transparent;
+  color: var(--text-primary);
+  border-color: var(--border-default);
+}
+
+.mat-mdc-button-toggle-checked {
+  background: var(--surface-primary);
+  color: var(--text-primary);
+}
+
+.mat-mdc-button-toggle:hover:not(.mat-mdc-button-toggle-checked) {
+  background: rgba(95, 108, 128, 0.1);
+}
+
+.mat-button-toggle-label-content {
+  color: var(--text-muted);
+}
+
+// Form Field & Input
+.mat-mdc-form-field {
+  color: var(--text-primary);
+}
+
+.mat-mdc-text-field-wrapper {
+  background: var(--surface-primary);
+}
+
+.mdc-text-field--filled .mdc-text-field__input,
+.mdc-text-field--outlined .mdc-text-field__input {
+  color: var(--text-primary) !important;
+}
+
+.mdc-text-field--filled .mdc-floating-label,
+.mdc-text-field--outlined .mdc-floating-label {
+  color: var(--text-muted) !important;
+}
+
+.mdc-text-field--filled .mdc-floating-label--float-above,
+.mdc-text-field--outlined .mdc-floating-label--float-above {
+  color: var(--text-muted) !important;
+}
+
+.mdc-text-field--outlined .mdc-notched-outline__leading,
+.mdc-text-field--outlined .mdc-notched-outline__notch,
+.mdc-text-field--outlined .mdc-notched-outline__trailing {
+  border-color: var(--border-default) !important;
+}
+
+.mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__leading,
+.mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__notch,
+.mdc-text-field--outlined.mdc-text-field--focused
+  .mdc-notched-outline__trailing {
+  border-color: var(--text-primary) !important;
+}
+
+.mdc-text-field__input::placeholder {
+  color: var(--text-muted) !important;
+  opacity: 0.6;
+}
+
+// Material Select
+.mat-mdc-select {
+  color: var(--text-primary) !important;
+}
+
+.mat-mdc-select-arrow {
+  color: var(--text-muted) !important;
+}
+
+.mat-mdc-select-panel {
+  background: var(--surface-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+.mat-mdc-option {
+  color: var(--text-primary) !important;
+}
+
+.mat-mdc-option:hover:not(.mdc-list-item--disabled),
+.mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) {
+  background: var(--surface-secondary) !important;
+}
+
+// Material Paginator
+.mat-mdc-paginator-container {
+  background: var(--surface-secondary);
+}
+.mat-mdc-paginator-range-label,
+.mat-mdc-paginator-page-size-label {
+  color: var(--text-muted);
+}
+
+// Material chip
+.mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled)
+  .mdc-evolution-chip__text-label {
+  color: var(--text-primary) !important;
+}
+
+
+// Material toolbar
+.mat-toolbar {
+  background: var(--surface-primary) !important;
+  color: var(--text-primary) !important;
+
+  .mat-mdc-button,
+  .mat-icon {
+    color: var(--text-primary) !important;
+  }
+}

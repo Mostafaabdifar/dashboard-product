@@ -1,0 +1,26 @@
+<ng-container *ngIf="theme$ | async as theme">
+  <mat-toolbar color="primary" class="app-toolbar">
+    <div class="brand">
+      <span class="logo">Product</span>
+    </div>
+    <span class="spacer"></span>
+    <a mat-button routerLink="/products" routerLinkActive="active-link">Products</a>
+    <button
+      mat-icon-button
+      type="button"
+      (click)="toggleTheme()"
+      [attr.aria-label]="theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'"
+    >
+      <mat-icon>{{ theme === 'light' ? 'dark_mode' : 'light_mode' }}</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <main class="app-shell">
+    <router-outlet />
+  </main>
+
+  <footer class="app-footer">
+    <span>© {{ currentYear }} Product Dashboard</span>
+    <span>Built with Angular, RxJS, and Angular Material</span>
+  </footer>
+</ng-container>

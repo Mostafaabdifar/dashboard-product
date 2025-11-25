@@ -1,0 +1,15 @@
+@if (series.length) {
+<div class="chart-card">
+  <canvas
+    baseChart
+    [data]="chartData"
+    [options]="chartOptions"
+    chartType="line"
+    aria-label="Monthly sales chart"
+  ></canvas>
+</div>
+} @else {
+<div class="empty-chart">
+  <p>No sales data available.</p>
+</div>
+}

@@ -1,0 +1,171 @@
+<section class="dashboard">
+  <header class="page-header">
+    <div>
+      <h1>Product Dashboard</h1>
+      <p>
+        Search, filter, and sort products while monitoring sales performance.
+      </p>
+    </div>
+    <button
+      mat-stroked-button
+      color="primary"
+      type="button"
+      (click)="resetFilters()"
+    >
+      <mat-icon>restart_alt</mat-icon>
+      Reset filters
+    </button>
+  </header>
+
+  <form class="filters" [formGroup]="filtersForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Search products</mat-label>
+      <input matInput placeholder="Name or brand" formControlName="search" />
+      @if (filtersForm.value.search) {
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        aria-label="Clear search"
+        (click)="filtersForm.patchValue({ search: '' })"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="category">
+        <mat-option value="all">All categories</mat-option>
+        @for (category of categories$ | async; track $index) {
+        <mat-option [value]="category">
+          {{ category | titlecase }}
+        </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <div class="sort-controls">
+      <span>Sort by</span>
+      <mat-button-toggle-group
+        [value]="filtersForm.value.sortField"
+        aria-label="Sort fields"
+        (change)="onSort($event.value)"
+      >
+        <mat-button-toggle value="title">Name</mat-button-toggle>
+        <mat-button-toggle value="price">Price</mat-button-toggle>
+        <mat-button-toggle value="rating">Rating</mat-button-toggle>
+      </mat-button-toggle-group>
+      <mat-icon
+        class="sort-direction"
+        [class.desc]="filtersForm.value.sortDirection === 'desc'"
+        (click)="onToggleSortDirection()"
+      >
+        {{ filtersForm.value.sortDirection === "desc" ? "south" : "north" }}
+      </mat-icon>
+    </div>
+  </form>
+
+  <ng-container *ngIf="vm$ | async as vm">
+    <section class="status-row">
+      <mat-card>
+        <h3>Total products</h3>
+        <p>{{ vm.total | number }}</p>
+      </mat-card>
+      <mat-card>
+        <h3>Page size</h3>
+        <p>{{ vm.query.pageSize }}</p>
+      </mat-card>
+      <mat-card>
+        <h3>Current page</h3>
+        <p>{{ vm.query.pageIndex + 1 }}</p>
+      </mat-card>
+    </section>
+
+    @if (vm.error) {
+    <app-error-state [message]="vm.error"></app-error-state>
+    } @if (vm.loading) {
+    <app-loading-state></app-loading-state>
+    } @if(!vm.loading && vm.items.length){
+    <section class="table-wrapper">
+      <table mat-table [dataSource]="vm.items" class="product-table">
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef>Product</th>
+          <td mat-cell *matCellDef="let product">
+            <div class="product-cell">
+              <img [src]="product.thumbnail" [alt]="product.name" />
+              <div>
+                <div
+                  class="product-name"
+                  [innerHTML]="
+                    product.name | highlight : filtersForm.value.search
+                  "
+                ></div>
+                <small>{{ product.brand }}</small>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="category">
+          <th mat-header-cell *matHeaderCellDef>Category</th>
+          <td mat-cell *matCellDef="let product">
+            <mat-chip color="primary" selected>{{
+              product.category | titlecase
+            }}</mat-chip>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef>Price</th>
+          <td mat-cell *matCellDef="let product">
+            {{ product.price | currency }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="rating">
+          <th mat-header-cell *matHeaderCellDef>Rating</th>
+          <td mat-cell *matCellDef="let product">
+            <div class="rating">
+              <mat-icon color="accent">star</mat-icon>
+              <span>{{ product.rating | number : "1.1-1" }}</span>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="stock">
+          <th mat-header-cell *matHeaderCellDef>Stock</th>
+          <td mat-cell *matCellDef="let product">{{ product.stock }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let product">
+            <a
+              mat-button
+              color="primary"
+              [routerLink]="['/products', product.id]"
+            >
+              View details
+            </a>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+      <mat-paginator
+        [length]="vm.total"
+        [pageIndex]="vm.query.pageIndex"
+        [pageSize]="vm.query.pageSize"
+        [pageSizeOptions]="[5, 10, 25]"
+        (page)="onPageChange($event)"
+      >
+      </mat-paginator>
+    </section>
+    } @if(!vm.loading && !vm.items.length && !vm.error){
+    <p class="empty-message">No products match the selected filters.</p>
+    }
+  </ng-container>
+</section>

@@ -1,0 +1,118 @@
+<section class="detail-page" *ngIf="vm$ | async as vm">
+  <button mat-button color="primary" type="button" (click)="navigateBack()">
+    <mat-icon>arrow_back</mat-icon>
+    Back to products
+  </button>
+
+  @if (vm.loading) {
+  <app-loading-state></app-loading-state>
+  } @if (vm.error) {
+  <app-error-state [message]="vm.error"></app-error-state>
+  }
+
+  <ng-container *ngIf="vm.data as detail">
+    <header class="hero">
+      <img [src]="detail.product.thumbnail" [alt]="detail.product.name" />
+      <div class="hero-content">
+        <h1>{{ detail.product.name }}</h1>
+        <p>{{ detail.product.description }}</p>
+
+        <div class="meta">
+          <mat-chip color="primary" selected>
+            {{ detail.product.category | titlecase }}
+          </mat-chip>
+
+          <span>
+            Availability Status: @if(detail.product.availabilityStatus === 'In Stock'){
+            <mat-chip class="chip-green-outline">
+              {{detail.product.availabilityStatus}}
+            </mat-chip>
+          } @else {
+            <mat-chip class="chip-red-outline">
+              {{detail.product.availabilityStatus}}
+            </mat-chip>
+            }
+          </span>
+          <span
+            >Brand: <strong>{{ detail.product.brand }}</strong></span
+          >
+          <span
+            >Stock: <strong>{{ detail.product.stock }}</strong></span
+          >
+        </div>
+
+        <div class="price">
+          <span>{{ detail.product.price | currency }}</span>
+          <small>{{ detail.product.discountPercentage }}% discount</small>
+        </div>
+      </div>
+    </header>
+
+    <section class="detail-grid">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Key metrics</mat-card-title>
+        </mat-card-header>
+        <mat-list>
+          <mat-list-item>
+            <mat-icon matListItemIcon color="accent">star</mat-icon>
+            <div matListItemTitle>Rating</div>
+            <div matListItemLine>
+              {{ detail.product.rating | number : "1.1-1" }}
+            </div>
+          </mat-list-item>
+          <mat-list-item>
+            <mat-icon matListItemIcon color="accent">attach_money</mat-icon>
+            <div matListItemTitle>Avg revenue</div>
+            <div matListItemLine>
+              {{ detail.averageRevenue | number : "1.0-0" }}
+            </div>
+          </mat-list-item>
+          <mat-list-item>
+            <mat-icon matListItemIcon color="accent"
+              >stacked_line_chart</mat-icon
+            >
+            <div matListItemTitle>Total revenue</div>
+            <div matListItemLine>
+              {{ detail.totalRevenue | number : "1.0-0" }}
+            </div>
+          </mat-list-item>
+        </mat-list>
+      </mat-card>
+
+      <mat-card class="chart-card">
+        <div class="card-header">
+          <h3>Monthly sales</h3>
+          <span>Mock data for visualization</span>
+        </div>
+        <app-product-sales-chart
+          [series]="detail.sales"
+        ></app-product-sales-chart>
+      </mat-card>
+    </section>
+
+    <section class="review-card">
+      @for (item of detail.product.reviews; track $index) {
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ item.reviewerName }}</mat-card-title>
+          <span>{{ item.date | date : "yyyy-MM-dd HH:mm" }}</span>
+        </mat-card-header>
+        <mat-card-content>
+          {{ item.comment }}
+          <span class="comment-rating"
+            >{{ item.rating }}
+            <mat-icon matListItemIcon color="accent">star</mat-icon>
+          </span>
+        </mat-card-content>
+        <!-- <mat-list>
+          <mat-list-item>
+            <span matListItemTitle>{{ item.reviewerName }}</span>
+            <span>{{ item.comment }}</span>
+          </mat-list-item>
+        </mat-list> -->
+      </mat-card>
+      }
+    </section>
+  </ng-container>
+</section>

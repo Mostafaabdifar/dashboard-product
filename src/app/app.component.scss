@@ -1,0 +1,74 @@
+:host {
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--background-body);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 0 2rem;
+
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  .logo {
+    font-weight: 700;
+    letter-spacing: 0.08rem;
+    text-transform: uppercase;
+  }
+
+  .version-chip {
+    padding: 0.125rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+
+  .active-link {
+    font-weight: 600;
+  }
+}
+
+.app-shell {
+  flex: 1;
+  width: min(1200px, 100%);
+  margin: 2rem auto;
+  padding: 0 1.5rem 3rem;
+}
+
+.app-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  border-top: 1px solid var(--border-default);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+@media (max-width: 768px) {
+  .app-toolbar {
+    padding: 0 1rem;
+  }
+
+  .app-shell {
+    padding: 0 1rem 2rem;
+  }
+
+  .app-footer {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+}
